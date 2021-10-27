@@ -55,6 +55,8 @@ new  Vue({
 ```
 4. app.vue의 \<router-view /> 태그에 의해 home.vue 가 보여진다.
 
+
+
 ## 🔵번들링
 > Vue는 webpack을 이용해서 모듈 파일들을 하나의 파일 또는 여러 파일로 합쳐짐을 의미
 - 빌드시 vue 파일은 javascript 파일로 바뀐다.
@@ -154,7 +156,7 @@ methods: {
 </div>
 ```
 ```javascript
-// router/index.js
+// 라우트 정의
 {
   path:"/menu01/exam03view",
   component: () =>  import(/* webpackChunkName: "menu01" */  '../views/menu01/Exam03View'),
@@ -187,3 +189,149 @@ methods: {
   },
 }
 ```
+<hr/>
+
+## 🟤URL 데이터 전달
+
+### path variables(param)로 전달
+- 라우트에 정의할 때 path에 **:bno**로 **path variable**이라고 명시한다.
+- **route 객체의 params 속성**을 참조하여, param 값을 얻는다.
+	- **javascript : this.$route.params.bno**
+	- **template : $route.params.bno**
+```html
+<!-- Exam05View.vue -->
+<li><router-link to="/menu01/exam06view/1">exam06view/1</router-link></li>
+<li><router-link v-bind:to="`/menu01/exam06view/${bno1}`">exam06view/3</router-link></li>
+<li><router-link :to="{ path: `/menu01/exam06view/${bno2}` }">exam06view/5</router-link></li>
+<li><router-link :to="{ name: 'menu01_exam06view', params: { bno: bno3 } }">exam06view/7</router-link></li>
+```
+```javascript
+// Exam05View.vue
+export default {
+  name:  "Exam05View",
+  data: () => ({
+    bno1:  3,
+    bno2:  5,
+    bno3:  7,
+  }),
+}
+```
+```javascript
+// 라우트 정의
+{
+  path:"/menu01/exam06view/:bno",
+  name:"menu01_exam06view",
+  component: () =>  import(/* webpackChunkName: "menu01" */  '../views/menu01/Exam06View'),
+  props: true // path variable을 props로 전달하겠다.
+}
+```
+```javascript
+// Exam06View.vue
+export default {
+  name: "Exam06View",
+  created() {
+    console.log("Exam06View 컴포넌트가 생성됨");
+    console.log(this.$route);
+    console.log(this.$route.params.bno);
+  },
+  props: ["bno"],
+};
+```
+```html
+<!-- Exam06View.vue -->
+<div>bno: {{ $route.params.bno }}</div> <!-- 라우트 객체로 전달 받음 -->
+<div>bno: {{ bno }}</div> <!-- props로 전달 받음 -->
+```
+<hr />
+
+
+### 정적 객체로 전달
+- **props**를 이용하여 정적 객체로 전달한다.
+	- 라우트에서 정의한 정적 객체들을 사용하기 위해서, 라우팅되는 vue파일에서 props 변수들을 지정해줘야 한다.
+```html
+<!-- Exam05View.vue -->
+<li><router-link to="/menu01/exam07view">exam07view</router-link></li>
+```
+```javascript
+// 라우트 정의
+{
+  path:"/menu01/exam07view",
+  component: () =>  import(/* webpackChunkName: "menu01" */  '../views/menu01/Exam07View'),
+  // Exam07View에서 아래의 정적 객체들을 사용할 수 있다.
+  props: {kind:"freeboard", color:"blue"}
+},
+```
+```javascript
+// Exam07View.vue
+export default {
+	...,
+	props: ["kind", "color"],
+};
+```
+```html
+// Exam07View.vue
+<p>kind : {{ kind }}</p>
+<p>color : {{ color }}</p>
+```
+<hr/>
+
+### 쿼리 스트링으로 전달
+- **route 객체의 query 속성**을 참조하여, param 값을 얻는다.
+	- **javascript : this.$route.query.kind**
+	- **template : $route.query.kind**
+```html
+<!-- Exam05View.vue -->
+<li><router-link  to="/menu01/exam08view?kind=freeboard&color=blue">exam08view?kind=freeboard&color=blue</router-link></li>
+<li><router-link :to="`/menu01/exam08view?kind=${kind1}&color=${color1}`">exam08view?kind=freeboard&color=blue</router-link></li>
+<li><router-link :to="{ path: `/menu01/exam08view?kind=${kind2}&color=${color2}` }">exam08view?kind=album&color=red</router-link></li>
+<li><router-link :to="{ name: 'menu01_exam08view', query: { kind:  kind3, color:  color3 } }">exam08view?kind=qa&color=yellow</router-link></li>
+```
+
+```javascript
+// Exam05View.vue
+export default {
+  name:  "Exam05View",
+  data: () => ({
+    kind1: "freeboard",
+    color1: "blue",
+    kind2: "album",
+    color2: "red",
+    kind3: "qa",
+    color3: "yellow",
+  }),
+}
+```
+```javascript
+// 라우트 정의
+{
+  path:"/menu01/exam08view",
+  name:"menu01_exam08view",
+  component: () =>  import(/* webpackChunkName: "menu01" */  '../views/menu01/Exam08View'),
+  // props로도 전달할 경우 추가
+  props: (route) => ({
+    kind:  route.query.kind,
+    color:  route.query.color
+  })
+}
+```
+```javascript
+// Exam08View.vue
+export default {
+  name: "Exam08View",
+  created() {
+    console.log(this.$route);
+    console.log(this.$route.query.kind);
+    console.log(this.$route.query.color);
+  },
+  props: ["kind", "color"],
+};
+```
+```html
+<!-- Exam08View.vue -->
+<p>kind : {{ $route.query.kind }}</p> <!-- 라우트 객체로 전달 받음 -->
+<p>color : {{ $route.query.color }}</p>
+
+<p>kind : {{ kind }}</p>  <!-- props로 전달 받음 -->
+<p>color : {{ color }}</p>
+```
+<hr />
