@@ -62,3 +62,130 @@ new  Vue({
 - 빌드시 vue 파일은 javascript 파일로 바뀐다.
 	- \<template> 안의 코드들은 export default 코드 안으로 들어가 모듈이 된다.
 	- 모듈들은  import 해서 사용할 수 있게 된다.
+
+## 🟣Vue Router
+> Vue에서 라우팅 기능을 제공하는 공식 라이브러리
+
+### 라우팅
+> URL 주소에 따라 페이지가 전환되는 것
+> Vue는 URL 주소에 따라 화면 컴포넌트인 View가 전환
+<hr/>
+
+### 라우터 모듈
+```javascript
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+
+Vue.use(VueRouter) // Vue에서 VueRouter를 사용하도록 설정
+
+// 라우트 정의 배열 생성
+const routes = [ 
+  {
+	path: '/',       // url
+	name: 'Home',	 // 라우트 이름
+	component: Home  // 보여줄 View 컴포넌트
+  },
+  {
+	path: '/about',
+    name: 'About',
+								    // 번들 파일 지정            @/view/About.vue
+    component: () =>  import(/* webpackChunkName: "about" */ '../views/About.vue')
+  }
+]
+  
+// 라우터 인스턴스 생성
+const  router = new  VueRouter({
+  mode:  'history',      		// URL 전환시 history 객체 이용(URL에 #이 안붙음)
+  base:  process.env.BASE_URL,  // 루트 경로 설정(기본값:/)
+  routes                        // 라우트 정의 배열 지정 (routes:routes)
+})
+
+export default router // 라우터를 기본 내보내기 (모듈)
+```
+<hr/>
+
+### 뷰 전환 방법
+
+- 선언적 방식
+	- v-bind:to/:to 에는 바인딩문자열 또는 객체를 포함시킬수 있다.
+```html
+<router-link to="정적 문자열">링크문자열</router-link>
+<router-link v-bind:to="바인딩문자열 또는 객체">링크문자열</router-link>
+<router-link :to="바인딩문자열 또는 객체">링크문자열</router-link>
+
+<router-link to="/menu01/exam02view" class="btn btn-sm btn-info mr-2">/menu01/exam02view</router-link>
+<router-link v-bind:to="`/menu01/exam02view`" class="btn btn-sm btn-info mr-2">/menu01/exam02view</router-link>
+<router-link :to="{ path: '/menu01/exam02view' }" class="btn btn-sm btn-info mr-2">/menu01/exam02view</router-link>
+<router-link :to="{ name: 'menu01_exam02view' }" class="btn btn-sm btn-info mr-2">/menu01/exam02view</router-link>
+```
+
+-  프로그래밍 방식
+```html
+<button class="btn btn-info btn-sm mr-2" v-on:click="goUrl">/menu01/exam01view</button>
+<button class="btn btn-info btn-sm mr-2" v-on:click="goUrl()">/menu01/exam01view</button>
+<button class="btn btn-info btn-sm mr-2" @click="goUrl">/menu01/exam01view</button>
+<button class="btn btn-info btn-sm" @click="goUrl()">/menu01/exam01view</button>
+```
+```javascript
+methods: {
+  goUrl() {
+	this.$router.push("/menu01/exam02view");
+	// this.$router.push({path:"/menu01/exam02view"});
+	// this.$router.push({name:"menu01_exam02view");
+    
+    /* 현재 URL과 동일한 URL로 화면 이동을 할 경우 예외가 발생하므로 예외 처리 코드 필요
+    this.$router.push("/menu01/exam02view")
+     .then(() => {})
+     .catch(() => {});
+    */
+  },
+}
+```
+<hr/>
+
+### 중첩된 라우트
+> 서브 URL에 따라 컴포넌트를 선택해서 보여줌
+- 선언적 방식
+```html
+<h6>선언적 방식 컴포넌트 전환(화면 이동)</h6>
+<router-link to="/menu01/exam03view/subacomponent" class="btn btn-sm btn-success mr-2">SubAComponent</router-link>
+<router-link to="/menu01/exam03view/subbcomponent" class="btn btn-sm btn-success">SubBComponent</router-link>
+<div class="mt-2">
+  <router-view />
+</div>
+```
+```javascript
+// router/index.js
+{
+  path:"/menu01/exam03view",
+  component: () =>  import(/* webpackChunkName: "menu01" */  '../views/menu01/Exam03View'),
+  children:[
+    {
+      path:"subacomponent",
+      component: () =>  import(/* webpackChunkName: "menu01" */  '../components/menu01/SubAComponent'),
+    },
+    {
+      path:"subbcomponent",
+      component: () =>  import(/* webpackChunkName: "menu01" */  '../components/menu01/SubBComponent'),
+    }
+  ]
+}
+```
+- 프로그래밍 방식
+```html
+<h6 class="mt-2">프로그래밍 방식 컴포넌트 전환(화면 이동)</h6>
+<button @click="goUrl('a')" class="btn btn-sm btn-primary mr-2">SubAComponent</button>
+<button @click="goUrl('b')" class="btn btn-sm btn-primary mr-2">SubBComponent</button>
+
+<div class="mt-2">
+  <router-view />
+</div>
+```
+```javascript
+methods: {
+  goUrl(type) {
+    this.$router.push(`/menu01/exam03view/sub${type}component`).catch(() => {});
+  },
+}
+```
