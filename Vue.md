@@ -55,8 +55,6 @@ new  Vue({
 ```
 4. app.vue의 \<router-view /> 태그에 의해 home.vue 가 보여진다.
 
-
-
 ## 🔵번들링
 > Vue는 webpack을 이용해서 모듈 파일들을 하나의 파일 또는 여러 파일로 합쳐짐을 의미
 - 빌드시 vue 파일은 javascript 파일로 바뀐다.
