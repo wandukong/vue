@@ -77,12 +77,32 @@ const routes = [
     path:"/menu01/exam08view",
     name:"menu01_exam08view",
     component: () => import(/* webpackChunkName: "menu01" */ '../views/menu01/Exam08View'),
-    // props 로 사용할 경우 추가
+    // props 로 전달할 경우 추가
     props: (route) => ({
       kind: route.query.kind,
       color: route.query.color
     })
-  }
+  },
+  {
+    path:"/menu02/Exam01Expressions",
+    component: () => import(/* webpackChunkName: "menu02" */ '../views/menu02/Exam01Expressions'),
+  },
+  {
+    path:"/menu02/Exam02Directives",
+    component: () => import(/* webpackChunkName: "menu02" */ '../views/menu02/Exam02Directives'),
+  },
+  {
+    path:"/menu02/Exam03AttrBinding",
+    component: () => import(/* webpackChunkName: "menu02" */ '../views/menu02/Exam03AttrBinding'),
+  },
+  {
+    path:"/menu02/Exam04FormBinding",
+    component: () => import(/* webpackChunkName: "menu02" */ '../views/menu02/Exam04FormBinding'),
+  },
+  {
+    path:"/menu02/Exam05ForRepeatBinding",
+    component: () => import(/* webpackChunkName: "menu02" */ '../views/menu02/Exam05ForRepeatBinding'),
+  },
 ]
 
 const router = new VueRouter({

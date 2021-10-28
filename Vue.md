@@ -1,6 +1,20 @@
 # Vue.js
 >SPA의 웹 페이지 화면 개발을 위한 프론트엔드(Front-end) 프레임워크
 
+### Vue 실행 과정
+
+1. index.html 실행
+2. main.js 실행
+3. main.js가 import한 App.vue를 index.html의 id가 app인 div에 넣어준다. 
+```js
+// main.js
+new  Vue({
+	router,
+	render:  h  =>  h(App)
+}).$mount('#app')
+```
+4. app.vue의 \<router-view /> 태그에 의해 home.vue 가 보여진다.
+
 ## 🔴SPA
 
 - MPA (Multi  Page  Application) - 기존 웹 페이지
@@ -33,37 +47,50 @@
 	- 지속적으로 데이터가 변화하는 대규모 애플리케이션에 유리
 
 ## 🟡Component 
-#### Component 
+### Component (공통 요소 컴포넌트)
 - 여러 화면(페이지) 안에 배치될 수 있는 재사용 UI 객체
 - HTML조각(\<template>) + JavaScript(\<script>)  + CSS(\<style>) 의 결합체
 - components 폴더에 작성
-#### View
+<hr />
+
+### View (화면 컴포넌트)
 - 화면 하나(페이지)를 말하며,  View는 재사용이 어려운 컴포넌트
 - views 폴더에 작성
+<hr />
 
-## 🟢Vue 실행 과정
+### 싱글 파일 컴포넌트 구조
+- \<template> | \<script>  | \<style> 태그로 구성
+- \<template>
+	- 화면에 표시할 요소들을 정의하는 영역
+	- 컴포넌트가 렌더링될 때 화면에 보여줄 부분을 HTML 태그로 작성
+	- 데이터 바인딩을 위한 표현식  **{{...}}** 사용
+	- **디렉티브(v-*)** 를 이용해서 데이터 바인딩, 이벤트 처리 및 동적 화면 제어
+- \<script> 
+	- 뷰 컴포넌트의 내용을 정의하는 내용
+	- 컴포넌트 이름 선언
+	- 컴포넌트 데이터 선언
+	- 컴포넌트 이벤트 처리를 위한 메소드 선언
+	- 컴포넌트 리사이클 훅 선언
+	- 데이터 바인딩을 위한 선언
+	- 데이터 및 상태 감시를 위한 선언
+-  \<style>
+	- 탬플릿에 추가한 HTML 태그의 CSS 스타일을 정의하는 영역
+	- scoped가 생략되면 전역 style
+	- scoped가 추가되면 싱글 파일 컴포넌트에서만 사용되는 지역 style
 
-1. index.html 실행
-2. main.js 실행
-3. main.js가 import한 App.vue를 index.html의 id가 app인 div에 넣어준다. 
-```js
-// main.js
-new  Vue({
-	router,
-	render:  h  =>  h(App)
-}).$mount('#app')
-```
-4. app.vue의 \<router-view /> 태그에 의해 home.vue 가 보여진다.
 
 
 
-## 🔵번들링
+
+
+
+## 🟢번들링
 > Vue는 webpack을 이용해서 모듈 파일들을 하나의 파일 또는 여러 파일로 합쳐짐을 의미
 - 빌드시 vue 파일은 javascript 파일로 바뀐다.
 	- \<template> 안의 코드들은 export default 코드 안으로 들어가 모듈이 된다.
 	- 모듈들은  import 해서 사용할 수 있게 된다.
 
-## 🟣Vue Router
+## 🔵Vue Router
 > Vue에서 라우팅 기능을 제공하는 공식 라이브러리
 
 ### 라우팅
@@ -191,7 +218,7 @@ methods: {
 ```
 <hr/>
 
-## 🟤URL 데이터 전달
+## 🟣URL 데이터 전달
 
 ### path variables(param)로 전달
 - 라우트에 정의할 때 path에 **:bno**로 **path variable**이라고 명시한다.
@@ -335,3 +362,82 @@ export default {
 <p>color : {{ color }}</p>
 ```
 <hr />
+
+## 🟤데이터 바인딩
+
+- 단방향 바인딩(one-way binding)
+	- 컴포넌트의 데이터가 변경되면 UI 요소 내용 변경
+
+- 양방향 바인딩(two-way binding)
+	- 컴포넌트의 데이터 변경 <---> UI 요소의 변경
+	- 주로 폼 데이터와 폼 양식간의 바인딩
+<hr/>
+
+### JavaScript 표현식
+
+> <b>{{...}}</b>표현식을 사용한다.
+
+```html
+<p>번호: {{ no }}</p>
+<p>이름: {{ name }}</p>
+<p>회사: {{ company }}</p>
+<p>판매여부: {{ sale ? "판매" : "품절" }}</p>
+<p>가격: {{ price }}</p>
+<p>가격: {{ getPrice() }}</p>
+<button class="btn btn-dark btn-sm mt-2" @click="changeData">변경</button>
+```
+```javascript
+export default {
+  name: "Exam01Expressions",
+  components: {},
+  data: function() {
+    return {
+      no: 1,
+      name: "미니백",
+      company:"클레인",
+      price: 300000,
+      sale: true,
+    };
+  },
+  methods: {
+    getPrice() {
+      return this.price; // 컴포넌트의 객체에 접근하려면 this를 붙인다.
+    },
+    changeData() {
+      this.price += 1000;
+      this.sale = !this.sale;
+    },
+  },
+};
+```
+<hr/>
+
+### 데이터 바인딩 디렉티브
+> **v-*** (디렉티브) 표현식을 사용한다.
+- 디렉티브를 사용하면 컴포넌트의 데이터를 속성의 값에 사용할 수 있다. 
+- 디렉티브를 사용하면 속성의 값들은 자바스크립트로 인식한다.
+```html
+<img class="mr-2" src="@/assets/photos/photo1.jpg" width="300" height="200" />
+<img v-bind:src="require(`@/assets/photos/${photoFileName}`)" width="300" height="200" />
+```
+```javascript
+export default {
+  name: "Exam02Directives",
+  components: {},
+  data: function() {
+    return {
+      photoFileName: "photo2.jpg",
+	};
+  },
+  methods: {
+    changeData() {
+	  if (this.photoFileName === "photo2.jpg") this.photoFileName = "photo3.jpg";
+	  else this.photoFileName = "photo2.jpg";
+	},
+  },
+};
+```
+<hr/>
+
+
+### 속성 디바인딩
