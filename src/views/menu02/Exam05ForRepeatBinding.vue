@@ -3,20 +3,20 @@
     <div class="card-header">Exam05ForRepeatBinding</div>
     <div class="card-body">
       <span v-for="n in 10" :key="n" class="mr-2">
-        <img v-bind:src="require(`@/assets/photos/photo${n}.jpg`)" width="300" height="200" />
+        <img v-bind:src="require(`@/assets/photos/photo${n}.jpg`)" width="300" height="200" v-if="n % 2 === 0" />
       </span>
       <hr />
 
       <h6>배열 항목 반복</h6>
       <div>
         <span v-for="(photo, index) in photos" :key="index">
-          <img v-bind:src="require(`@/assets/photos/${photo}`)" width="300" height="200" />
+          <img v-bind:src="require(`@/assets/photos/${photo}`)" width="300" height="200" v-if="index <= 1" />
         </span>
       </div>
       <hr />
 
       <h6>객체 항목 반복</h6>
-      <table>
+      <table class="table table-bordered">
         <thead>
           <tr>
             <th>No</th>
@@ -39,24 +39,16 @@
 </template>
 
 <script>
+import boardData from "@/data/boardData";
+import photoData from "@/data/photoData";
+
 export default {
   name: "Exam05ForRepeatBinding",
   components: {},
   data() {
     return {
-      photos: ["photo1.jpg", "photo2.jpg", "photo3.jpg"],
-      boards: [
-        { bno: 1, btitle: "제목1", bwriter: "글쓴이1", bdate: "2021-08-07" },
-        { bno: 2, btitle: "제목2", bwriter: "글쓴이2", bdate: "2021-08-08" },
-        { bno: 3, btitle: "제목3", bwriter: "글쓴이3", bdate: "2021-08-09" },
-      ],
-      board: {
-        bno: 4,
-        btitle: "제목4",
-        bcontent: "내용4",
-        bwriter: "글쓴이4",
-        bdate: "2021-08-10",
-      },
+      photos: photoData.photos,
+      boards: boardData.boards,
     };
   },
   methods: {},
