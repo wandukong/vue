@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import menu01 from './menu01'
 import menu02 from './menu02'
 import menu03 from './menu03'
+import menu04 from './menu04'
+import menu05 from './menu05'
 
 Vue.use(VueRouter)
 
@@ -24,7 +26,8 @@ const routes = [
   ...menu01,
   ...menu02,
   ...menu03,
-    component: () => import(/* webpackChunkName: "menu01" */ '../views/menu01/Exam01View')
+  ...menu04,
+  ...menu05,
 ]
 
 const router = new VueRouter({
