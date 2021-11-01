@@ -28,5 +28,16 @@
       <router-link to="/menu03/exam01eventhandling" class="nav-link text-warning">이벤트 처리</router-link>
       <router-link to="/menu03/exam02watch" class="nav-link text-warning">데이터 변경 감시</router-link>
     </li>
+    <li class="nav-item mt-2">
+      <h6 class="text-white">Menu04: Data Delivery</h6>
+      <router-link to="/menu04/exam01props" class="nav-link text-warning">부모에서 자식으로 전달(props 이용)</router-link>
+      <router-link to="/menu04/exam02eventemit" class="nav-link text-warning">자식에서 부모로 전달(event 이용)</router-link>
+      <router-link to="/menu04/exam03inject" class="nav-link text-warning">의존성 주입</router-link>
+      <router-link to="/menu04/exam04ref" class="nav-link text-warning">참조 이용</router-link>
+    </li>
+    <li class="nav-item mt-2">
+      <h6 class="text-white">Menu05: Life Cycle Hook</h6>
+      <router-link to="/menu05/exam01lifecyclehook" class="nav-link text-warning">라이프 사이클 훅</router-link>
+    </li>
   </ul>
 </template>
