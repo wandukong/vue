@@ -1,3 +1,4 @@
+
 # Vue.js
 >SPA의 웹 페이지 화면 개발을 위한 프론트엔드(Front-end) 프레임워크
 
@@ -439,5 +440,325 @@ export default {
 ```
 <hr/>
 
-
 ### 속성 디바인딩
+> 속성값으로 데이터를 바인딩하기 위해 표현식({{ … }})을 사용할 수 없음
+- v-bind:속성명="…"또는 :속성명="…" 를 사용
+- …에  올 수 있는 형태
+	- Data속성명 또는 연산식
+	- 매개변수화된 문자열일 경우 백틱(\`) 사용 :“\`… ${Data속성명} … \`” 
+<hr/>
+
+### Form 입력 데이터 바인딩(양방향 바인딩)
+> **v-model** 속성을 사용한다.
+```html
+<form v-on:submit.prevent="handleSubmit">
+	<div class="form-group row">
+	  <label class="col-sm-2 col-form-label">Name</label>
+	  <div class="col-sm-10">
+		<input type="text" class="form-control" v-model="product.name" />
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label class="col-sm-2 col-form-label">Company</label>
+	  <div class="col-sm-10">
+		<input type="text" class="form-control" v-model="product.company" />
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label class="col-sm-2 col-form-label">Price</label>
+	  <div class="col-sm-10">
+		<input type="number" class="form-control" v-model.number="product.price" />
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label class="col-sm-2 col-form-label">Info</label>
+	  <div class="col-sm-10">
+		<textarea class="form-control" v-model="product.info"></textarea>
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label class="col-sm-2 col-form-label">Madein</label>
+	  <div class="col-sm-10">
+		<select class="form-control" v-model="product.madein">
+		  <option value="미국">미국</option>
+		  <option value="한국">한국</option>
+		  <option value="독일">독일</option>
+		</select>
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label class="col-sm-2 col-form-label">Sale1</label>
+	  <div class="col-sm-10">
+		<div class="form-check">
+		  <input type="checkbox" class="form-check-input" v-model="product.sale1" />
+		  <label class="form-check-label">판매여부</label>
+		</div>
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label class="col-sm-2 col-form-label">Colors</label>
+	  <div class="col-sm-10">
+		<div class="form-check">
+		  <input type="checkbox" class="form-check-input" value="black" v-model="product.colors" />
+		  <label class="form-check-label">black</label>
+		</div>
+		<div class="form-check">
+		  <input type="checkbox" class="form-check-input" value="white" v-model="product.colors" />
+		  <label class="form-check-label">white</label>
+		</div>
+		<div class="form-check">
+		  <input type="checkbox" class="form-check-input" value="red" v-model="product.colors" />
+		  <label class="form-check-label">red</label>
+		</div>
+		<!-- v-model이 동일하기 때문에 그룹으로 뭍김-->
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label class="col-sm-2 col-form-label">Sale2</label>
+	  <div class="col-sm-10">
+		<div class="form-check">
+		  <input type="checkbox" class="form-check-input" v-model="product.sale2" true-value="yes" false-value="no" />
+		  <label class="form-check-label">판매여부</label>
+		</div>
+	  </div>
+	</div>
+	<div class="form-group row">
+	  <label class="col-sm-2 col-form-label">Sex</label>
+	  <div class="col-sm-10">
+		<div class="form-check">
+		  <input type="radio" class="form-check-input" v-model="product.sex" value="man" />
+		  <label class="form-check-label">Man</label>
+		</div>
+		<div class="form-check">
+		  <input type="radio" class="form-check-input" v-model="product.sex" value="woman" />
+		  <label class="form-check-label">Woman</label>
+		</div>
+	  </div>
+	</div>
+
+	<div>
+	  <button class="btn btn-sm btn-primary mr-2" v-bind:disabled="disabledRegButton">등록</button>
+	  <router-link to="/" class="btn btn-sm btn-danger">취소</router-link>
+	</div>
+</form>
+```
+```javascript
+data() {
+	return {
+	  product: {
+		name: "",
+		company: "",
+		price: 0,
+		colors: [],
+		info: "",
+		madein: "한국",
+		sale1: false,
+		sale2: "no",
+		sex: "woman",
+	  },
+	};
+},
+```
+<hr />
+
+### For 반복 바인딩
+- **v-for** 속성 이용
+```html
+<태그 v-for="(item, index) in 배열" [ v-if=“item조건식”] :key=“항목식별값|index”>…</태그>
+<태그 v-for="(value, name, index) in 객체" [v-if=“조건식”] v-bind:key=“항목식별값|index”>… </태그>
+<태그 v-for="n in 10" [ v-if=“조건식”] v-bind:key=“n”> … </태그>
+```
+- v-for와 v-if는 사용하지 않는 것이 좋다.
+	- 최신 vue2.x 는 기본적으로 Compile  error 발생 
+	- .eslintrc.js에 다음과 같이 추가하면 사용 가능
+```javascript
+rules: {
+	…,
+	"vue/no-use-v-if-with-v-for": "off"
+}
+```
+
+```html
+<span v-for="n in 10" :key="n" class="mr-2">
+	<img v-bind:src="require(`@/assets/photos/photo${n}.jpg`)" width="300" height="200" v-if="n % 2 === 0" />
+</span>
+<hr />
+
+<h6>배열 항목 반복</h6>
+<div>
+	<span v-for="(photo, index) in photos" :key="index">
+	<img v-bind:src="require(`@/assets/photos/${photo}`)" width="300" height="200" v-if="index <= 1" />
+	</span>
+</div>
+<hr />
+
+<h6>객체 항목 반복</h6>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>No</th>
+			<th>Title</th>
+			<th>Writer</th>
+			<th>Date</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr v-for="board in boards" :key="board.bno">
+			<td>{{ board.bno }}</td>
+			<td>{{ board.btitle }}</td>
+			<td>{{ board.bwriter }}</td>
+			<td>{{ board.bdate }}</td>
+		</tr>
+	</tbody>
+</table>
+```
+<hr/>
+
+### Computed 바인딩
+> 데이터를 가공한 새로운 값을 생성해서 바인딩할 목적으로 사용
+- 정의 형태는 리턴값있는 메소드이지만, 사용은 속성처럼 사용한다.
+- 데이터가 변경되지 않으면 캐싱된 이전 값을 바인딩하므로 메소드가 재실행하지 않는다.
+- 데이터가 변경되면 자동으로 메소드가 실행되고 리턴 값으로 새로 캐싱한다.
+
+```html
+<div>
+	<p>ssn(getSsn): {{ getSsn() }}</p>
+	<p>ssn(computedSsn): {{ computedSsn }}</p>
+</div>
+<button @click="changeData" class="btn btn-sm btn-dark" mt-2>변경</button>
+```
+```javascript
+data() {
+    return {
+		ssn1: "960106",
+		ssn2: "1235825",
+		date: new Date(),
+	};
+},
+methods: {
+	getSsn() {
+		console.log("getSsn 실행");
+		return this.ssn1 + " - " + this.ssn2.charAt(0) + "******";
+	},
+	changeData() {
+	  this.date = new Date();
+	  this.ssn2 = "2220123";
+	},
+},
+
+computed: {
+	computedSsn() {
+		console.log("computedSsn 실행");
+		return this.ssn1 + " - " + this.ssn2.charAt(0) + "******";
+	},
+},
+```
+<hr/>
+
+## ⭕템플릿 컴포넌트
+- 템플릿 컴포넌트 필요성
+	- 컴포넌트 중에서는 구조가 동일하고 내용만 다른 경우가 있음
+```html
+<template>
+  <modal-dialog-template>
+    <template v-slot:header>
+      DialogA
+    </template>
+    
+    <template v-slot:body>
+      DialogA 내용입니다.
+    </template>
+    
+    <template v-slot:footer>
+      <button class="modal-default-button btn btn-sm btn-dark mr-2" @click="$emit('close')">확인</button>
+      <button class="modal-default-button btn btn-sm btn-dark mr-2" @click="$emit('close')">닫기</button>
+    </template>
+  </modal-dialog-template>
+</template>
+```
+```html
+<template>
+  <modal-dialog-template>
+    <template v-slot:header>
+      로그인
+    </template>
+
+    <template v-slot:body>
+      <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" aria-describedby="emailHelp" autocomplete="email" />
+          <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+        </div>
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" autocomplete="new-password" />
+        </div>
+        <div class="form-group form-check">
+          <input type="checkbox" class="form-check-input" />
+          <label class="form-check-label">Check me out</label>
+        </div>
+      </form>
+    </template>
+
+    <template v-slot:footer>
+      <button class="btn btn-info btn-sm" @click="$emit('close')">로그인</button>
+      <button class="btn btn-info btn-sm" @click="$emit('close')">취소</button>
+    </template>
+  </modal-dialog-template>
+</template>
+```
+- 템플릿 컴포넌트 작성
+	- 컴포넌트마다 바뀌는 내용 부분은 <slot> 으로 지정
+```html
+<template>
+  <transition name="modal">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="modal-header">
+            <slot name="header">
+              제목
+            </slot>
+          </div>
+
+          <div class="modal-body">
+            <slot name="body">
+              내용
+            </slot>
+          </div>
+          
+          <div class="modal-footer">
+            <slot name="footer">
+              <button class="modal-default-button btn btn-sm btn-dark" @click="$emit('close')">닫기</button>
+            </slot>
+          </div>
+        </div>
+      </div>
+    </div>
+  </transition>
+</template>
+```
+```html
+<div class="card-body">
+  <button class="btn btn-sm btn-danger mr-2" @click="modalDialogTemplate = true">show ModalDialogTemplate</button>
+  <button class="btn btn-sm btn-warning mr-2" @click="dialogA = true">show DialogA</button>
+  <button class="btn btn-sm btn-success" @click="dialogB = true">show DialogB</button>
+</div>
+<modal-dialog-template v-if="modalDialogTemplate" @close="modalDialogTemplate = false" />
+<dialog-a v-if="dialogA" @close="dialogA = false" />
+<dialog-b v-if="dialogB" @close="dialogB = false" />
+```
+```javascript
+export default {
+  name: "Exam07Template",
+  components: { ModalDialogTemplate, DialogA, DialogB },
+  data() {
+    return {
+      modalDialogTemplate: false,
+      dialogA: false,
+      dialogB: false,
+    };
+  },
+};
+```
