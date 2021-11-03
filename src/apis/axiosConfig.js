@@ -5,7 +5,7 @@ axios.defaults.baseURL = "http://localhost";
 
 // 요청 http에 Authorization 헤더 추가, 값은 JWT로 설정
 function addAuthHeader(authToken){
-  axios.defaults.headers.common['Authorization'] = `bearer ${authToken}`;
+  axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
 }
 
 // 요청 http에 Authorization 헤더 제거

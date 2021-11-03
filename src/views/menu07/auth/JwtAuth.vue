@@ -104,15 +104,20 @@ export default {
     },
 
     async handleLogin() {
+      this.loading = true;
+      this.alertDialog = true;
       try {
+        this.loading = false;
+        this.alertDialog = false;
         const response = await auth.login(this.user);
         this.$store.dispatch("saveAuth", { userId: response.data.mid, authToken: response.data.jwt });
       } catch (error) {
+        this.loading = false;
         try {
-          this.alertDialog = true;
-          this.alertDialogMessage = "로그인 실패(아이디 또는 패스워드가 틀림)";
+          if (error.response.status === 401) {
+            this.alertDialogMessage = "로그인 실패(아이디 또는 패스워드가 틀림)";
+          }
         } catch (err) {
-          this.alertDialog = true;
           this.alertDialogMessage = "로그인 실패(네트워크 에러)";
         }
       }
