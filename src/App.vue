@@ -1,37 +1,28 @@
 <template>
-  <div id="app" class="d-flex flex-column vh-100">
-    <AppHeader />
-    <div class="flex-grow-1 container-fluid">
-      <div class="row h-100">
-        <div class="col-md-6 col-lg-4 p-3 bg-dark">
-          <div class=" h-100 d-flex flex-column">
-            <div class="flex-grow-1" style="height:0px; overflowY:auto; overflowX:hidden">
-              <AppMenu />
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-8 p-3">
-          <div class=" h-100 d-flex flex-column">
-            <div class="flex-grow-1 overflow-auto pr-3" style="height:0px">
-              <router-view />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <v-app>
+    <v-app-bar app color="#002a56de" dark>
+      <v-app-bar-nav-icon @click="$store.state.drawer = !$store.state.drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>Vuetify</v-toolbar-title>
+    </v-app-bar>
+    <v-main>
+      <v-container fluid>
+        <router-view />
+      </v-container>
+    </v-main>
+    <app-menu />
+
+    <v-footer app color="#002a56de" dark>
+      <!--가운데 정렬-->
+      <div class="mx-auto">SeUnGwAn</div>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-import AppHeader from "@/components/AppHeader";
-import AppMenu from "@/components/AppMenu";
-
+import AppMenu from "@/components/AppMenu.vue";
 export default {
   name: "App",
-  components: {
-    AppHeader,
-    AppMenu,
-  },
+  components: { AppMenu },
   created() {
     this.$store.dispatch("loadAuth");
   },

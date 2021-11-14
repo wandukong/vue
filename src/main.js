@@ -7,10 +7,13 @@ import store from './store'
 // axios.defaults.baseURL을 먼저 적용
 import axios from './apis/axiosConfig'
 
+import vuetify from './plugins/vuetify'
+
 Vue.config.productionTip = false
 
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')

@@ -1,38 +1,44 @@
 <template>
-  <div class="card">
-    <div class="card-header">글수정</div>
-    <div class="card-body">
-      <form v-if="board" v-on:submit.prevent="handleUpdate">
-        <div class="form-group row">
-          <label for="btitle" class="col-sm-2 col-form-label">제목</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="btitle" v-model="board.btitle" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="bcontent" class="col-sm-2 col-form-label">내용</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="bcontent" v-model="board.bcontent" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="battach" class="col-sm-2 col-form-label">첨부그림</label>
-          <div class="col-sm-10">
-            <input type="file" class="form-control-file" id="battach" ref="battach" />
-          </div>
-        </div>
-        <div>
-          <img v-bind:src="`${baseURL}/board/battach/${board.bno}?jwt=${$store.state.authToken}`" alt="" width="200" />
-        </div>
-        <div class="form-group row mt-3">
-          <div class="col-sm-12 d-flex justify-content-center">
-            <input type="submit" class="btn btn-info btn-sm mr-2" value="수정" />
-            <input type="button" class="btn btn-info btn-sm" value="취소" v-on:click="handleCancel" />
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
+  <v-card>
+    <v-card-title>게시물 수정</v-card-title>
+    <v-divider />
+    <v-card-text>
+      <v-form @submit.prevent="handleUpdate">
+        <v-container fluid>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-text-field label="제목" single-line full-width v-model="board.btitle"></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-textarea v-model="board.bcontent" label="내용" counter maxlength="1000" full-width single-line></v-textarea>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-file-input label="첨부파일" v-model="files" show-size></v-file-input>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-btn class="success" type="submit">
+                작성
+              </v-btn>
+              <v-btn class="red" @click="handleCancel">
+                취소
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <img v-bind:src="`${baseURL}/board/battach/${board.bno}?jwt=${$store.state.authToken}`" alt="" width="200" />
+          </v-row>
+        </v-container>
+      </v-form>
+
+      <alert-dialog v-if="alertDialog" :loading="loading" :message="alertDialogMessage" @close="alertDialog = false" />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -46,6 +52,7 @@ export default {
     return {
       baseURL: axios.defaults.baseURL,
       board: null,
+      files: [],
     };
   },
   methods: {
@@ -55,10 +62,11 @@ export default {
         multipartFormData.append("bno", this.board.bno);
         multipartFormData.append("btitle", this.board.btitle);
         multipartFormData.append("bcontent", this.board.bcontent);
-        const battach = this.$refs.battach;
-        if (battach.files.length != 0) {
-          multipartFormData.append("battach", battach.files[0]);
+
+        if (this.files.length !== 0) {
+          multipartFormData.append("battach", this.files);
         }
+
         this.loading = true;
         this.alertDialog = true;
         const response = await apiBoard.updateBoard(multipartFormData);

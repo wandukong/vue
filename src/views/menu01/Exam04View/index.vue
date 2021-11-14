@@ -1,19 +1,18 @@
 <!-- 컴포넌트 UI 정의-->
 <template>
-  <div class="card">
-    <div class="card-header">Exam04View</div>
-    <div class="card-body">
+  <v-card>
+    <v-card-title>Exam04View</v-card-title>
+    <v-divider />
+    <v-card-text>
       <router-view class="mb-2" />
       <router-view name="rv1" class="mb-2" />
       <router-view name="rv2" class="mb-2" />
-
-      <hr />
-
+      <v-divider />
       <sub-a-component class="mb-2" />
       <sub-b-component class="mb-2" />
       <sub-c-component class="mb-2" />
-    </div>
-  </div>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

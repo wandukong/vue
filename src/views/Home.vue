@@ -1,25 +1,15 @@
 <template>
-  <div class="card">
-    <div class="card-header">
-      Home
-    </div>
-    <div class="card-body">
-      <div class="home">
-        <img alt="Vue logo" src="../assets/logo.png" />
-        <HelloWorld />
-      </div>
-    </div>
-  </div>
+  <hello-world />
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+  import HelloWorld from '../components/HelloWorld'
 
-export default {
-  name: "Home",
-  components: {
-    HelloWorld,
-  },
-};
+  export default {
+    name: 'Home',
+
+    components: {
+      HelloWorld,
+    },
+  }
 </script>

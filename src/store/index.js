@@ -10,6 +10,7 @@ export default new Vuex.Store({
   state: {
     userId: "",
     authToken:"",
+    drawer:false
   },
   // 루트 상태값을 읽는 메소드 정의(getter)
   // 상태 읽기 정의(getters)

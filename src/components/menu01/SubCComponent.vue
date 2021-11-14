@@ -1,9 +1,10 @@
 <!-- 컴포넌트 UI 정의-->
 <template>
-  <div class="card">
-    <div class="card-header">SubCComponent</div>
-    <div class="card-body"></div>
-  </div>
+  <v-card>
+    <v-card-title>SubCComponent</v-card-title>
+    <v-divider />
+    <v-card-text></v-card-text>
+  </v-card>
 </template>
 
 <script>

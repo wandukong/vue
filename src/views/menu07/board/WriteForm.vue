@@ -1,36 +1,41 @@
 <template>
-  <div class="card">
-    <div class="card-header">새글</div>
-    <div class="card-body">
-      <form @submit.prevent="handleAdd">
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">제목</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" v-model="board.btitle" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">내용</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" v-model="board.bcontent" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">첨부그림</label>
-          <div class="col-sm-10">
-            <input type="file" class="form-control-file" ref="battach" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-12 d-flex justify-content-center">
-            <input type="submit" class="btn btn-primary btn-sm mr-2" value="작성" />
-            <input type="button" class="btn btn-danger btn-sm" value="취소" v-on:click="handleCancel" />
-          </div>
-        </div>
-      </form>
-    </div>
-    <alert-dialog v-if="alertDialog" :loading="loading" :message="alertDialogMessage" @close="alertDialog = false" />
-  </div>
+  <v-card>
+    <v-card-title>새글</v-card-title>
+    <v-divider />
+    <v-card-text>
+      <v-form @submit.prevent="handleAdd">
+        <v-container fluid>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-text-field label="제목" single-line full-width v-model="board.btitle"></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-textarea v-model="board.bcontent" label="내용" counter maxlength="1000" full-width single-line></v-textarea>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-file-input label="첨부파일" v-model="files" show-size></v-file-input>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-btn class="success" type="submit">
+                작성
+              </v-btn>
+              <v-btn class="red" @click="handleCancel">
+                취소
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-form>
+
+      <alert-dialog v-if="alertDialog" :loading="loading" :message="alertDialogMessage" @close="alertDialog = false" />
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -46,6 +51,7 @@ export default {
         btitle: "",
         bcontent: "",
       },
+      files: [],
       alertDialogMessage: "",
       alertDialog: false,
       loading: false,
@@ -58,9 +64,8 @@ export default {
         multipartFormData.append("btitle", this.board.btitle);
         multipartFormData.append("bcontent", this.board.bcontent);
         multipartFormData.append("mid", this.$store.state.userId);
-        const battach = this.$refs.battach;
-        if (battach.files.length != 0) {
-          multipartFormData.append("battach", battach.files[0]);
+        if (this.files.length !== 0) {
+          multipartFormData.append("battach", this.files);
         }
         this.loading = true;
         this.alertDialog = true;

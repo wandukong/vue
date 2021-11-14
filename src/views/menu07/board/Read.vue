@@ -1,36 +1,36 @@
 <template>
-  <div class="card">
-    <div class="card-header">게시물 내용</div>
-    <div class="card-body">
-      <div v-if="board != null">
-        <div class="d-flex">
-          <div>
-            <p>bno: {{ board.bno }}</p>
-            <p>btitle: {{ board.btitle }}</p>
-            <p>bcontent: {{ board.bcontent }}</p>
-            <p>mid: {{ board.mid }}</p>
-            <p>bdate: {{ new Date(board.bdate).toLocaleDateString() }}</p>
-            <p>bhitcount: {{ board.bhitcount }}</p>
-            <p v-if="board.battachoname">
-              battachoname:
-              <a v-bind:href="`${baseURL}/board/battach/${board.bno}?jwt=${$store.state.authToken}`">
-                {{ board.battachoname }}
-              </a>
-            </p>
-          </div>
+  <v-card>
+    <v-card-title>게시물 내용</v-card-title>
+    <v-divider />
+    <v-card-text>
+      <v-row>
+        <v-col>
+          <p>bno: {{ board.bno }}</p>
+          <p>btitle: {{ board.btitle }}</p>
+          <p>bcontent: {{ board.bcontent }}</p>
+          <p>mid: {{ board.mid }}</p>
+          <p>bdate: {{ new Date(board.bdate).toLocaleDateString() }}</p>
+          <p>bhitcount: {{ board.bhitcount }}</p>
+          <p v-if="board.battachoname">
+            battachoname:
+            <a v-bind:href="`${baseURL}/board/battach/${board.bno}?jwt=${$store.state.authToken}`">
+              {{ board.battachoname }}
+            </a>
+          </p>
+        </v-col>
+        <v-col>
           <div class="align-items-center ml-5">
             <img v-bind:src="`${baseURL}/board/battach/${board.bno}?jwt=${$store.state.authToken}`" alt="" width="300" />
           </div>
-        </div>
-
-        <div>
-          <router-link :to="`/menu07/board/list?pageNo=${$route.query.pageNo}`" class="btn btn-info btn-sm mr-2">목록</router-link>
-          <router-link :to="`/menu07/board/updateform?bno=${$route.query.bno}&pageNo=${$route.query.pageNo}`" class="btn btn-info btn-sm mr-2">수정</router-link>
-          <button class="btn btn-info btn-sm mr-2" @click="handleRemove">삭제</button>
-        </div>
-      </div>
-    </div>
-  </div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-btn :to="`/menu07/board/list?pageNo=${$route.query.pageNo}`" color="primary" class="mr-2">목록</v-btn>
+        <v-btn :to="`/menu07/board/updateform?bno=${$route.query.bno}&pageNo=${$route.query.pageNo}`" color="warning" class="mr-2">수정</v-btn>
+        <v-btn @click="handleRemove" color="red">삭제</v-btn>
+      </v-row>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

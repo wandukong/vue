@@ -1,15 +1,18 @@
 <!-- 컴포넌트 UI 정의-->
 <template>
-  <div class="card">
-    <div class="card-header">Exam01View</div>
-    <div class="card-body">
-      <h6>선언적 방식 화면 이동</h6>
-      <router-link to="/menu01/exam02view" class="btn btn-sm btn-info mr-2">/menu01/exam02view</router-link>
-      <router-link v-bind:to="`/menu01/exam02view`" class="btn btn-sm btn-info mr-2">/menu01/exam02view</router-link>
-      <router-link :to="{ path: '/menu01/exam02view' }" class="btn btn-sm btn-info mr-2">/menu01/exam02view</router-link>
-      <router-link :to="{ name: 'menu01_exam02view' }" class="btn btn-sm btn-info mr-2">/menu01/exam02view</router-link>
-    </div>
-  </div>
+  <v-card>
+    <v-card-title>선언적 방식 화면 이동</v-card-title>
+    <v-divider />
+
+    <v-card-text>
+      <v-row>
+        <v-btn to="/menu01/exam02view" color="warning" class="mr-2">/menu01/exam02view</v-btn>
+        <v-btn :to="`/menu01/exam02view`" color="primary" class="mr-2">/menu01/exam02view</v-btn>
+        <v-btn :to="{ path: '/menu01/exam02view' }" color="success" class="mr-2">/menu01/exam02view</v-btn>
+        <v-btn :to="{ name: 'menu01_exam02view' }" color="yellow">/menu01/exam02view</v-btn>
+      </v-row>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

@@ -1,54 +1,221 @@
 <template>
-  <ul class="nav flex-column">
-    <li class="nav-item">
-      <h6 class="text-white">Vue Home</h6>
-      <router-link to="/" class="nav-link text-warning">Home</router-link>
-      <router-link to="/about" class="nav-link text-warning">About</router-link>
-    </li>
-    <li class="nav-item mt-2">
-      <h6 class="text-white">Menu01: Routing</h6>
-      <router-link to="/menu01/exam01view" class="nav-link text-warning">선언적 방식 화면 이동</router-link>
-      <router-link to="/menu01/exam02view" class="nav-link text-warning">프로그래밍 방식 화면 이동</router-link>
-      <router-link to="/menu01/exam03view" class="nav-link text-warning">중첩된 라우트</router-link>
-      <router-link to="/menu01/exam04view" class="nav-link text-warning">이름이 있는 뷰</router-link>
-      <router-link to="/menu01/exam05view" class="nav-link text-warning">URL 데이터 전달</router-link>
-    </li>
-    <li class="nav-item mt-2">
-      <h6 class="text-white">Menu02: Component</h6>
-      <router-link to="/menu02/exam01expressions" class="nav-link text-warning">표현식 바인딩</router-link>
-      <router-link to="/menu02/exam02directives" class="nav-link text-warning">디렉티브 바인딩</router-link>
-      <router-link to="/menu02/exam03attrbinding" class="nav-link text-warning">속성 바인딩</router-link>
-      <router-link to="/menu02/exam04formbinding" class="nav-link text-warning">폼 바인딩</router-link>
-      <router-link to="/menu02/exam05forrepeatbinding" class="nav-link text-warning">반복 바인딩</router-link>
-      <router-link to="/menu02/exam06computedbinding" class="nav-link text-warning">computed 바인딩</router-link>
-      <router-link to="/menu02/exam07template" class="nav-link text-warning">템플릿 컴포넌트</router-link>
-    </li>
-    <li class="nav-item mt-2">
-      <h6 class="text-white">Menu03: Event Handling & Watch</h6>
-      <router-link to="/menu03/exam01eventhandling" class="nav-link text-warning">이벤트 처리</router-link>
-      <router-link to="/menu03/exam02watch" class="nav-link text-warning">데이터 변경 감시</router-link>
-    </li>
-    <li class="nav-item mt-2">
-      <h6 class="text-white">Menu04: Data Delivery</h6>
-      <router-link to="/menu04/exam01props" class="nav-link text-warning">부모에서 자식으로 전달(props 이용)</router-link>
-      <router-link to="/menu04/exam02eventemit" class="nav-link text-warning">자식에서 부모로 전달(event 이용)</router-link>
-      <router-link to="/menu04/exam03inject" class="nav-link text-warning">의존성 주입</router-link>
-      <router-link to="/menu04/exam04ref" class="nav-link text-warning">참조 이용</router-link>
-    </li>
-    <li class="nav-item mt-2">
-      <h6 class="text-white">Menu05: Life Cycle Hook</h6>
-      <router-link to="/menu05/exam01lifecyclehook" class="nav-link text-warning">라이프 사이클 훅</router-link>
-    </li>
-    <li class="nav-item mt-2">
-      <h6 class="text-white">Menu06: Vuex State Management</h6>
-      <router-link to="/menu06/exam01rootstate" class="nav-link text-warning">루트 상태 읽기 및 변경</router-link>
-      <router-link to="/menu06/exam02counterstate" class="nav-link text-warning">하위 상태 읽기 및 변경</router-link>
-    </li>
-    <li class="nav-item mt-2">
-      <h6 class="text-white">Menu07: Axois AJAX</h6>
-      <router-link to="/menu07/exam01asynccontrol" class="nav-link text-warning">비동기 작업 도중에 보여줄 스피너</router-link>
-      <router-link to="/menu07/auth/JwtAuth" class="nav-link text-warning">JWT 인증</router-link>
-      <router-link to="/menu07/board/list" class="nav-link text-warning">게시물 목록</router-link>
-    </li>
-  </ul>
+  <v-navigation-drawer app color="#002a56de" dark v-model="$store.state.drawer">
+    <v-list-item>
+      <v-list-item-content>
+        <v-list-item-title class="text-h6"> SeUnGwAn </v-list-item-title>
+        <v-list-item-subtitle> Team2 </v-list-item-subtitle>
+      </v-list-item-content>
+    </v-list-item>
+
+    <v-divider></v-divider>
+
+    <v-list>
+      <v-list-item to="/">
+        <v-list-item-icon>
+          <v-icon>mdi-home</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>HOME</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item to="/about">
+        <v-list-item-icon>
+          <v-icon>mdi-help-circle</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>ABOUT</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-group :value="false" prepend-icon="mdi-routes" active-class="blue--text">
+        <template v-slot:activator>
+          <v-list-item-title>Routing</v-list-item-title>
+        </template>
+        <v-list-item to="/menu01/exam01view" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>선언적 방식 화면 이동</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu01/exam02view" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>프로그래밍 방식 화면 이동</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu01/exam03view" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>중첩된 라우트</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu01/exam04view" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>이름이 있는 뷰</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu01/exam05view" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>URL 데이터 전달</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+
+      <v-list-group :value="false" prepend-icon="mdi-stack-overflow" active-class="blue--text">
+        <template v-slot:activator>
+          <v-list-item-title>Component</v-list-item-title>
+        </template>
+        <v-list-item to="/menu02/exam01expressions" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>표현식 바인딩</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu02/exam02directives" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>디렉티브 바인딩</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu02/exam03attrbinding" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>속성 바인딩</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu02/exam04formbinding" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>폼 바인딩</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu02/exam05forrepeatbinding" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>반복 바인딩</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu02/exam06computedbinding" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>computed 바인딩</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu02/exam07template" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>템플릿 바인딩</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+
+      <v-list-group :value="false" prepend-icon="mdi-bell-alert" active-class="blue--text">
+        <template v-slot:activator>
+          <v-list-item-title>Event Handling & Watch</v-list-item-title>
+        </template>
+        <v-list-item to="/menu03/exam01eventhandling" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>이벤트 처리</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu03/exam02watch" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>데이터 변경 감시</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+
+      <v-list-group :value="false" prepend-icon="mdi-truck-delivery" active-class="blue--text">
+        <template v-slot:activator>
+          <v-list-item-title>Data Delivery</v-list-item-title>
+        </template>
+        <v-list-item to="/menu04/exam01props" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>부모에서 자식으로 전달(props 이용)</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu04/exam02eventemit" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>자식에서 부모로 전달(event 이용)</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu04/exam03inject" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>의존성 주입</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu04/exam04ref" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>참조 이용</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+
+      <v-list-group :value="false" prepend-icon="mdi-recycle-variant" active-class="blue--text">
+        <template v-slot:activator>
+          <v-list-item-title>Life Cycle Hook</v-list-item-title>
+        </template>
+        <v-list-item to="/menu05/exam01lifecyclehook" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>라이프 사이클 훅</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+
+      <v-list-group :value="false" prepend-icon="mdi-content-save-all" active-class="blue--text">
+        <template v-slot:activator>
+          <v-list-item-title>Vuex State Management</v-list-item-title>
+        </template>
+        <v-list-item to="/menu06/exam01rootstate" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>루트 상태 읽기 및 변경</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu06/exam02counterstate" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>하위 상태 읽기 및 변경</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+
+      <v-list-group :value="false" prepend-icon="mdi-swap-horizontal-bold" active-class="blue--text">
+        <template v-slot:activator>
+          <v-list-item-title>Axois AJAX</v-list-item-title>
+        </template>
+        <v-list-item to="/menu07/exam01asynccontrol" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title> 스피너</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu07/auth/JwtAuth" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>JWT 인증</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item to="/menu07/board/list" color="white">
+          <v-list-item-icon> </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>게시물 목록</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-group>
+    </v-list>
+  </v-navigation-drawer>
 </template>
+
+<script>
+export default {};
+</script>

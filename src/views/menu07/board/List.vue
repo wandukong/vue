@@ -1,44 +1,56 @@
 <template>
-  <div class="card">
-    <div class="card-header">게시물 목록</div>
-    <div class="card-body">
-      <router-link to="/menu07/board/writeform" class="btn btn-success btn-sm mb-2">✏</router-link>
-      <div v-if="page != null">
-        <table class="table table-sm table-striped table-bordered">
-          <thead>
-            <tr>
-              <th class="text-center" style="width:70px">번호</th>
-              <th class="text-center">제목</th>
-              <th class="text-center" style="width:90px">글쓴이</th>
-              <th class="text-center" style="width:120px">날짜</th>
-              <th class="text-center" style="width:70px">조회수</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="board in page.boards" :key="board.bno">
-              <td class="text-center" style="width:70px">{{ board.bno }}</td>
-              <td class="text-center">
-                <router-link :to="`/menu07/board/read?bno=${board.bno}&pageNo=${page.pager.pageNo}&hit=true`">{{ board.btitle }} </router-link>
-              </td>
-              <td class="text-center" style="width:90px">{{ board.mid }}</td>
-              <td class="text-center" style="width:120px">{{ new Date(board.bdate).toLocaleDateString() }}</td>
-              <td class="text-center" style="width:70px">{{ board.bhitcount }}</td>
-            </tr>
-            <tr>
-              <td colspan="5" class="text-center">
-                <button class="btn btn-outline-warning btn-sm mr-1" @click="changePage(1)">처음</button>
-                <button class="btn btn-outline-success btn-sm mr-1" @click="changePage(page.pager.startPageNo - 1)" v-if="page.pager.groupNo > 1">이전</button>
-                <button v-for="pageNo in range(page.pager.startPageNo, page.pager.endPageNo)" :key="pageNo" @click="changePage(pageNo)" :class="`btn ${page.pager.pageNo != pageNo ? 'btn-outline-info' : 'btn-info'} btn-sm mr-1`">{{ pageNo }}</button>
-                <button class="btn btn-outline-success btn-sm mr-1" @click="changePage(page.pager.endPageNo + 1)" v-if="page.pager.groupNo < page.pager.totalGroupNo">다음</button>
-                <button class="btn btn-outline-warning btn-sm" @click="changePage(page.pager.totalPageNo)">맨끝</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <v-card>
+    <v-card-title>게시판 목록</v-card-title>
+    <v-divider />
+    <v-card-text>
+      <v-btn to="/menu07/board/writeform" class="success">
+        <v-icon color="white">mdi-lead-pencil</v-icon>
+      </v-btn>
+      <v-divider />
+      <v-simple-table v-if="page != null">
+        <thead>
+          <tr>
+            <th class="text-center" style="width:70px">
+              번호
+            </th>
+            <th class="text-center">
+              제목
+            </th>
+            <th class="text-center" style="width:90px">
+              글쓴이
+            </th>
+            <th class="text-center" style="width:120px">
+              날짜
+            </th>
+            <th class="text-center" style="width:70px">
+              조회수
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="board in page.boards" :key="board.bno">
+            <td class="text-center" style="width:70px">{{ board.bno }}</td>
+            <td class="text-center">
+              <router-link :to="`/menu07/board/read?bno=${board.bno}&pageNo=${page.pager.pageNo}&hit=true`">{{ board.btitle }} </router-link>
+            </td>
+            <td class="text-center" style="width:90px">{{ board.mid }}</td>
+            <td class="text-center" style="width:120px">{{ new Date(board.bdate).toLocaleDateString() }}</td>
+            <td class="text-center" style="width:70px">{{ board.bhitcount }}</td>
+          </tr>
+          <tr>
+            <td colspan="5" class="text-center">
+              <v-btn small color="yellow lighten-3" class="mr-2" @click="changePage(1)">처음</v-btn>
+              <v-btn small color="green accent-1" class="mr-2" @click="changePage(page.pager.startPageNo - 1)" v-if="page.pager.groupNo > 1">이전</v-btn>
+              <v-btn small v-for="pageNo in range(page.pager.startPageNo, page.pager.endPageNo)" :key="pageNo" @click="changePage(pageNo)" :color="`${page.pager.pageNo != pageNo ? 'blue--text text-lighten-4' : 'blue lighten-4'}`">{{ pageNo }}</v-btn>
+              <v-btn small color="green accent-1" class="ml-2" @click="changePage(page.pager.endPageNo + 1)" v-if="page.pager.groupNo < page.pager.totalGroupNo">다음</v-btn>
+              <v-btn small color="yellow lighten-3" class="ml-2" @click="changePage(page.pager.totalPageNo)">맨끝</v-btn>
+            </td>
+          </tr>
+        </tbody>
+      </v-simple-table>
+    </v-card-text>
     <alert-dialog v-if="alertDialog" :loading="loading" :message="alertDialogMessage" @close="alertDialog = false" />
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -112,5 +124,4 @@ export default {
   },
 };
 </script>
-
 <style scoped></style>

@@ -1,16 +1,22 @@
 <!-- 컴포넌트 UI 정의-->
 <template>
-  <div class="card">
-    <div class="card-header">Exam02View</div>
-    <div class="card-body">
-      <sub-a-component class="mb-2" />
+  <v-card>
+    <v-card-title>프로그래밍 방식 화면 이동</v-card-title>
+    <v-divider />
+    <v-card-text>
       <!-- 프로그램 방식 화면 이동-->
-      <button class="btn btn-info btn-sm mr-2" v-on:click="goUrl">/menu01/exam01view</button>
-      <button class="btn btn-info btn-sm mr-2" v-on:click="goUrl()">/menu01/exam01view</button>
-      <button class="btn btn-info btn-sm mr-2" @click="goUrl">/menu01/exam01view</button>
-      <button class="btn btn-info btn-sm" @click="goUrl()">/menu01/exam01view</button>
-    </div>
-  </div>
+      <v-row>
+        <sub-a-component />
+      </v-row>
+
+      <v-row class="mt-16">
+        <v-btn v-on:click="goUrl" color="warning" class="mr-2">/menu01/exam01view</v-btn>
+        <v-btn v-on:click="goUrl()" color="primary" class="mr-2">/menu01/exam01view</v-btn>
+        <v-btn @click="goUrl" color="success" class="mr-2">/menu01/exam01view</v-btn>
+        <v-btn @click="goUrl()" color="yellow">/menu01/exam01view</v-btn>
+      </v-row>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
@@ -28,7 +34,7 @@ export default {
   // 컴포넌트 메소드 정의
   methods: {
     goUrl() {
-      this.$router.push("/menu01/exam02view");
+      this.$router.push("/menu01/exam01view");
       // this.$router.push({path:"/menu01/exam02view"});
       // this.$router.push({name:"menu01_exam02view");
 

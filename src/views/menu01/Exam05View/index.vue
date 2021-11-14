@@ -1,30 +1,82 @@
 <!-- 컴포넌트 UI 정의-->
 <template>
-  <div class="card">
-    <div class="card-header">Exam05View</div>
-    <div class="card-body">
-      <h6>params(path variable)로 전달</h6>
-      <ul>
-        <li><router-link to="/menu01/exam06view/1">exam06view/1</router-link></li>
-        <li><router-link v-bind:to="`/menu01/exam06view/${bno1}`">exam06view/3</router-link></li>
-        <li><router-link :to="{ path: `/menu01/exam06view/${bno2}` }">exam06view/5</router-link></li>
-        <li><router-link :to="{ name: 'menu01_exam06view', params: { bno: bno3 } }">exam06view/7</router-link></li>
-      </ul>
+  <v-card>
+    <v-card-title>Exam05View</v-card-title>
+    <v-divider />
+    <v-card-text>
+      <v-list dense>
+        <v-subheader>params(path variable)로 전달</v-subheader>
+        <v-list-item-group>
+          <v-list-item>
+            <v-list-item-icon> </v-list-item-icon>
+            <v-list-item-content>
+              <v-btn to="/menu01/exam06view/1">exam06view/1</v-btn>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon> </v-list-item-icon>
+            <v-list-item-content>
+              <v-btn v-bind:to="`/menu01/exam06view/${bno1}`">exam06view/3</v-btn>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon> </v-list-item-icon>
+            <v-list-item-content>
+              <v-btn :to="{ path: `/menu01/exam06view/${bno2}` }">exam06view/5</v-btn>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon> </v-list-item-icon>
+            <v-list-item-content>
+              <v-btn :to="{ name: 'menu01_exam06view', params: { bno: bno3 } }">exam06view/7</v-btn>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
 
-      <h6>정적 prop 객체로 전달</h6>
-      <ul>
-        <li><router-link to="/menu01/exam07view">exam07view</router-link></li>
-      </ul>
+      <v-list dense>
+        <v-subheader>정적 prop 객체로 전달</v-subheader>
+        <v-list-item-group>
+          <v-list-item>
+            <v-list-item-icon> </v-list-item-icon>
+            <v-list-item-content>
+              <v-btn to="/menu01/exam07view">exam07view</v-btn>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
 
-      <h6>쿼리 스트링으로 데이터 전달</h6>
-      <ul>
-        <li><router-link to="/menu01/exam08view?kind=freeboard&color=blue">exam08view?kind=freeboard&color=blue</router-link></li>
-        <li><router-link :to="`/menu01/exam08view?kind=${kind1}&color=${color1}`">exam08view?kind=freeboard&color=blue</router-link></li>
-        <li><router-link :to="{ path: `/menu01/exam08view?kind=${kind2}&color=${color2}` }">exam08view?kind=album&color=red</router-link></li>
-        <li><router-link :to="{ name: 'menu01_exam08view', query: { kind: kind3, color: color3 } }">exam08view?kind=qa&color=yellow</router-link></li>
-      </ul>
-    </div>
-  </div>
+      <v-list dense>
+        <v-subheader>쿼리 스트링으로 데이터 전달</v-subheader>
+        <v-list-item-group>
+          <v-list-item>
+            <v-list-item-icon> </v-list-item-icon>
+            <v-list-item-content>
+              <v-btn to="/menu01/exam08view?kind=freeboard&color=blue">exam08view?kind=freeboard&color=blue</v-btn>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon> </v-list-item-icon>
+            <v-list-item-content>
+              <v-btn :to="`/menu01/exam08view?kind=${kind1}&color=${color1}`">exam08view?kind=freeboard&color=blue</v-btn>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon> </v-list-item-icon>
+            <v-list-item-content>
+              <v-btn :to="{ path: `/menu01/exam08view?kind=${kind2}&color=${color2}` }">exam08view?kind=album&color=red</v-btn>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-icon> </v-list-item-icon>
+            <v-list-item-content>
+              <v-btn :to="{ name: 'menu01_exam08view', query: { kind: kind3, color: color3 } }">exam08view?kind=qa&color=yellow</v-btn>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
+      </v-list>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>
